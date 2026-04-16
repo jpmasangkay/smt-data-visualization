@@ -1,0 +1,212 @@
+,Name,Arcana,Base level,Strength,Magic,Endurance,Agility,Luck
+0,Izanagi,Fool,1,3,2,2,3,2
+1,Yomotsu-Shikome,Fool,7,2,7,7,8,4
+2,Obariyon,Fool,13,11,6,11,9,9
+3,Legion,Fool,21,14,14,18,13,11
+4,Ose,Fool,31,28,12,20,25,15
+5,Black Frost,Fool,38,23,31,22,23,22
+6,Decarabia,Fool,46,27,36,25,26,31
+7,Shiki-Ouji,Fool,56,50,29,31,41,24
+8,Loki,Fool,64,48,50,31,47,23
+9,Jiraiya,Magician,4,5,3,3,5,4
+10,Pixie,Magician,2,2,3,2,4,2
+11,Orobas,Magician,8,4,10,6,7,4
+12,Jack Frost,Magician,16,10,14,12,11,8
+13,Hua Po,Magician,25,14,21,15,17,15
+14,Pyro Jack,Magician,32,16,26,19,22,20
+15,Dis,Magician,39,25,31,24,26,21
+16,Rangda,Magician,47,24,37,30,25,32
+17,Jinn,Magician,62,37,51,38,39,28
+18,Surt,Magician,69,41,54,39,40,40
+19,Mada,Magician,78,45,63,52,38,43
+20,Konohana Sakuya,Priestess,15,8,15,11,8,10
+21,Saki Mitama,Priestess,11,5,12,5,8,10
+22,Sarasvati,Priestess,17,9,16,10,13,10
+23,High Pixie,Priestess,22,10,21,10,19,13
+24,Ganga,Priestess,29,16,22,16,19,21
+25,Parvati,Priestess,37,20,29,17,25,27
+26,Kikuri-Hime,Priestess,48,26,36,28,31,30
+27,Hariti,Priestess,59,31,47,33,34,39
+28,Tzitzimitl,Priestess,70,46,56,41,39,35
+29,Scathach,Priestess,79,54,59,37,49,45
+30,Senri,Empress,9,7,7,4,11,5
+31,Yaksini,Empress,18,13,16,10,12,10
+32,Titania,Empress,26,12,23,15,19,16
+33,Gorgon,Empress,34,20,21,25,24,19
+34,Gabriel,Empress,44,28,34,22,30,25
+35,Skadi,Empress,52,27,37,32,36,31
+36,Mother Harlot,Empress,60,38,47,37,29,36
+37,Alilat,Empress,70,39,48,49,39,42
+38,Isis,Empress,79,52,48,42,48,54
+39,Take-Mikazuchi,Emperor,25,20,11,17,15,14
+40,Oberon,Emperor,12,10,12,8,8,5
+41,King Frost,Emperor,22,11,20,17,13,12
+42,Setanta,Emperor,34,23,21,25,24,16
+43,Oukuninushi,Emperor,41,29,34,25,20,22
+44,Thoth,Emperor,45,28,43,23,21,27
+45,Pabilsag,Emperor,51,38,29,30,33,30
+46,Barong,Emperor,65,48,44,40,36,34
+47,Odin,Emperor,74,48,60,42,39,43
+48,Omoikane,Hierophant,7,5,8,5,4,6
+49,Anzu,Hierophant,15,9,11,10,13,9
+50,Shiisaa,Hierophant,21,18,18,9,14,11
+51,Unicorn,Hierophant,29,17,22,19,22,14
+52,Flauros,Hierophant,36,30,20,24,20,21
+53,Hokuto Seikun,Hierophant,45,29,34,31,26,22
+54,Cerberus,Hierophant,52,37,30,32,35,29
+55,Daisoujou,Hierophant,60,34,45,40,30,41
+56,Hachiman,Hierophant,70,33,60,39,38,47
+57,Kohryu,Hierophant,76,50,53,54,40,38
+58,Himiko,Lovers,34,15,25,20,21,24
+59,Queen Mab,Lovers,25,17,19,15,17,14
+60,Undine,Lovers,33,21,27,13,26,19
+61,Leanan Sidhe,Lovers,42,19,33,26,29,36
+62,Raphael,Lovers,53,32,38,24,33,39
+63,Cybele,Lovers,64,41,47,37,39,35
+64,Ishtar,Lovers,71,46,44,33,48,49
+65,Tomoe,Chariot,6,5,5,6,3,4
+66,Slime,Chariot,2,3,2,3,2,3
+67,Nata Taishi,Chariot,6,6,2,6,7,4
+68,Eligor,Chariot,12,11,6,13,8,5
+69,Ara Mitama,Chariot,18,11,11,11,11,11
+70,Ares,Chariot,25,18,15,20,15,14
+71,Triglav,Chariot,43,33,23,27,32,21
+72,Kin-Ki,Chariot,54,41,25,53,23,27
+73,Thor,Chariot,65,43,39,53,32,35
+74,Atavaka,Chariot,72,50,41,43,41,48
+75,Futsunushi,Chariot,80,59,38,61,44,45
+76,Angel,Justice,4,4,5,2,5,3
+77,Archangel,Justice,11,8,9,7,7,9
+78,Principality,Justice,19,11,15,10,18,10
+79,Power,Justice,27,21,20,11,17,19
+80,Virtue,Justice,33,22,29,21,19,15
+81,Dominion,Justice,38,22,32,25,24,18
+82,Throne,Justice,49,37,30,24,37,26
+83,Uriel,Justice,58,35,42,37,36,31
+84,Melchizedek,Justice,66,51,46,46,34,28
+85,Sraosha,Justice,74,57,36,44,62,33
+86,Forneus,Hermit,6,4,5,7,6,3
+87,Ippon-Datara,Hermit,17,15,6,14,13,10
+88,Lamia,Hermit,26,16,23,12,20,14
+89,Mothman,Hermit,33,20,23,17,28,18
+90,Hitokotonusi,Hermit,41,28,33,30,20,19
+91,Kurama Tengu,Hermit,48,30,34,28,38,21
+92,Niddhoggr,Hermit,55,23,41,35,31,42
+93,Nebiros,Hermit,63,38,47,39,40,32
+94,Arahabaki,Hermit,73,50,55,62,37,25
+95,Ongyo-Ki,Hermit,82,59,64,59,47,24
+96,Sukuna-Hikona,Fortune,55,32,38,32,40,31
+97,Fortuna,Fortune,35,19,23,22,26,22
+98,Clotho,Fortune,44,22,31,28,26,32
+99,Lachesis,Fortune,51,31,39,25,34,31
+100,Ananta,Fortune,58,43,42,45,28,23
+101,Atropos,Fortune,65,36,48,36,37,45
+102,Norn,Fortune,72,42,53,31,48,46
+103,Sandman,Strength,5,4,5,6,4,3
+104,Valkyrie,Strength,8,7,6,6,7,5
+105,Titan,Strength,14,11,12,10,10,6
+106,Rakshasa,Strength,23,19,12,18,14,13
+107,Kusi Mitama,Strength,28,18,21,12,19,21
+108,Oni,Strength,30,25,12,26,18,16
+109,Hanuman,Strength,42,31,25,31,21,25
+110,Kali,Strength,50,37,25,36,35,27
+111,Siegfried,Strength,63,48,36,41,38,33
+112,Zaou-Gongen,Strength,90,61,48,71,47,50
+113,Berith,Hanged Man,15,12,10,9,12,9
+114,Ikusa,Hanged Man,22,17,16,18,12,10
+115,Makami,Hanged Man,27,16,21,13,22,16
+116,Orthrus,Hanged Man,39,34,21,28,23,18
+117,Yatsufusa,Hanged Man,49,32,33,27,36,26
+118,Taowu,Hanged Man,56,40,37,31,38,29
+119,Hell Biker,Hanged Man,66,49,40,40,48,28
+120,Vasuki,Hanged Man,71,48,47,50,40,35
+121,Attis,Hanged Man,82,51,56,56,50,40
+122,Ghoul,Death,9,8,7,9,5,5
+123,Mokoi,Death,14,13,7,9,11,9
+124,Matador,Death,24,17,10,16,25,11
+125,Samael,Death,36,24,29,25,19,18
+126,Mot,Death,46,32,38,30,24,21
+127,White Rider,Death,58,49,31,37,40,24
+128,Alice,Death,72,39,56,33,45,44
+129,Mahakala,Death,78,58,38,57,49,39
+130,Apsaras,Temperance,4,3,5,3,5,3
+131,Sylph,Temperance,11,8,10,5,10,7
+132,Xiezhai,Temperance,16,14,12,9,13,7
+133,Nigi Mitama,Temperance,23,15,16,14,15,16
+134,Mithra,Temperance,31,22,26,21,16,15
+135,Genbu,Temperance,40,28,27,39,12,21
+136,Seiryuu,Temperance,47,30,31,33,28,26
+137,Suzaku,Temperance,54,30,36,31,42,30
+138,Byakko,Temperance,62,47,32,35,49,30
+139,Yurlungur,Temperance,69,41,50,45,43,35
+140,Vishnu,Temperance,73,46,52,34,54,43
+141,Ukobach,Devil,3,3,4,3,4,2
+142,Lilim,Devil,10,4,11,5,9,8
+143,Vetala,Devil,19,17,10,14,12,11
+144,Incubus,Devil,28,17,22,16,19,17
+145,Pazuzu,Devil,37,27,15,28,29,19
+146,Succubus,Devil,44,22,33,28,32,27
+147,Lilith,Devil,53,30,43,30,36,27
+148,Belphegor,Devil,61,40,48,42,39,21
+149,Belial,Devil,68,51,31,48,40,41
+150,Beelzebub,Moon,77,48,60,49,40,41
+151,Taotie,Tower,35,20,27,30,22,13
+152,Cu Chulainn,Tower,46,40,32,28,25,20
+153,Abaddon,Tower,55,43,27,50,23,29
+154,Mara,Tower,62,44,35,48,36,30
+155,Masakado,Tower,69,51,32,45,46,40
+156,Yoshitsune,Tower,75,52,39,49,61,34
+157,Shiva,Tower,80,59,48,44,54,42
+158,Kintoki-Douji,Star,35,24,25,20,22,16
+159,Kaiwan,Star,24,16,23,14,15,11
+160,Neko Shogun,Star,32,26,20,19,23,15
+161,Fuu-Ki,Star,43,25,32,34,27,18
+162,Ganesha,Star,50,38,29,31,27,32
+163,Garuda,Star,57,39,33,28,47,31
+164,Kartikeya,Star,67,47,39,40,44,38
+165,Saturnus,Star,75,50,57,36,43,49
+166,Helel,Star,87,56,57,56,49,50
+167,Andra,Moon,20,14,16,13,12,12
+168,Nozuchi,Moon,27,26,13,19,15,15
+169,Yamatano-Orochi,Moon,34,29,21,26,18,15
+170,Alraune,Moon,41,17,35,21,29,28
+171,Girimehkala,Moon,48,36,35,23,30,27
+172,Sui-Ki,Moon,57,42,49,43,33,17
+173,Seth,Moon,68,46,51,40,39,35
+174,Baal Zebul,Moon,77,48,60,49,40,41
+175,Sandalphon,Moon,84,56,61,46,47,49
+176,Cu Sith,Sun,10,10,5,6,9,7
+177,Phoenix,Sun,20,9,15,9,20,14
+178,Gdon,Sun,31,27,10,23,22,18
+179,Yatagarasu,Sun,40,28,27,22,31,19
+180,Narasimha,Sun,47,29,27,30,35,27
+181,Tam Lin,Sun,53,45,31,34,39,25
+182,Jatayu,Sun,61,38,44,35,48,25
+183,Horus,Sun,68,45,48,35,45,38
+184,Suparna,Sun,77,48,52,45,55,38
+185,Asura,Sun,86,59,57,51,50,48
+186,Gurr,Hunger,20,16,11,14,15,11
+187,Take-Minakata,Hunger,27,20,20,22,14,12
+188,Pale Rider,Hunger,34,25,24,21,24,15
+189,Loa,Hunger,40,25,30,28,23,21
+190,Baphomet,Hunger,47,25,35,35,26,27
+191,Kumbhanda,Hunger,55,37,36,35,44,20
+192,Chernobog,Hunger,62,46,47,32,35,33
+193,Seiten Taisei,Hunger,68,47,34,40,48,42
+194,Ame-no-Uzume,Aeon,18,9,15,12,10,15
+195,Narcissus,Aeon,24,13,18,11,16,21
+196,Sati,Aeon,31,19,27,20,17,17
+197,Raja Naga,Aeon,37,25,26,24,22,21
+198,Kushinada,Aeon,44,25,32,27,24,31
+199,Quetzalcoatl,Aeon,51,30,31,31,35,33
+200,Kingu,Aeon,58,38,44,38,30,31
+201,Lakshmi,Aeon,65,36,50,37,38,41
+202,Kaguya,Aeon,74,37,65,36,44,47
+203,Anubis,Judgement,59,38,41,37,37,31
+204,Trumpeter,Judgement,67,40,47,39,45,37
+205,Michael,Judgement,72,45,42,43,48,45
+206,Satan,Judgement,76,45,60,47,40,43
+207,Metatron,Judgement,83,54,55,53,46,48
+208,Ardha,Judgement,90,62,52,64,41,58
+209,Lucifer,Star,87,56,57,56,49,50
+210,Izanagi-no-Okami,World,91,80,80,80,80,80

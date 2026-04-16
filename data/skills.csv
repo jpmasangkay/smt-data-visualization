@@ -1,0 +1,297 @@
+,Skill,Effect,Costs,Resource
+0,Bash,Deals light Phys damage to 1 foe.,6,% HP
+1,Cleave,Deals light Phys damage to 1 foe.,5,% HP
+2,Skewer,Deals light Phys damage to 1 foe.,5,% HP
+3,Sonic Punch,Deals light Phys damage to 1 foe.,8,% HP
+4,Double Fangs,Deals light Phys damage to 1 foe 2x.,8,% HP
+5,Single Shot,Deals light Phys damage to 1 foe.,8,% HP
+6,Arm Chopper,Deals light Phys damage to 1 foe with a chance of Fear.,9,% HP
+7,Hysterical Slap,Deals light Phys damage to 1 foe with a chance of Rage.,9,% HP
+8,Poison Skewer,Deals light Phys damage to 1 foe with a chance of Poison.,9,% HP
+9,Skull Cracker,Deals light Phys damage to 1 foe with a chance of Confusion.,9,% HP
+10,Muzzle Shot,Deals light Phys damage to 1 foe with a chance of Silence.,9,% HP
+11,Assault Dive,Deals light Phys damage to 1 foe.,10,% HP
+12,Twin Shot,Deals light Phys damage to 1 foe 2x.,10,% HP
+13,Kill Rush,Deals light Phys damage to 1 foe 1x to 3x.,10,% HP
+14,Cell Breaker,Deals light Phys damage to 1 foe with a chance of Enervation.,10,% HP
+15,Brain Shake,Deals light Phys damage to 1 foe 1x to 3x with a chance of Exhaustion.,12,% HP
+16,Power Slash,Deals medium Phys damage to 1 foe.,14,% HP
+17,Cruel Attack,"Medium Phys dmg, 1 foe. Bonus damage to foes that are knocked down.",12,% HP
+18,Fatal End,Deals medium Phys damage to 1 foe.,14,% HP
+19,Black Spot,Deals medium Phys damage to 1 foe.,16,% HP
+20,Poison Arrow,Deals medium Phys damage to 1 foe with a chance of Poison.,14,% HP
+21,Mighty Swing,Deals medium Phys damage to 1 foe.,14,% HP
+22,Torrent Shot,Deals medium Phys damage to 1 foe 2x to 3x.,12,% HP
+23,Tempest Slash,Deals heavy Phys damage to 1 foe 1x to 2x.,15,% HP
+24,Gigantic Fist,Deals heavy Phys damage to 1 foe.,16,% HP
+25,Vile Assault,Deals heavy Phys damage to 1 foe. Bonus damage to foes that are knocked down.,18,% HP
+26,Rainy Death,Deals heavy Phys damage to 1 foe.,20,% HP
+27,Brave Blade,Deals severe Phys damage to 1 foe.,20,% HP
+28,God's Hand,Deals severe Phys damage to 1 foe.,22,% HP
+29,Primal Force,Deals severe Phys damage to 1 foe.,20,% HP
+30,Heaven's Blade,Deals heavy Phys damage to 1 foe.,19,% HP
+31,Gale Slash,Deals light Phys damage to all foes.,12,% HP
+32,Rampage,Deals light Phys damage to all foes 1x to 3x.,12,% HP
+33,Swift Strike,Deals light Phys damage to all foes 1x to 2x.,12,% HP
+34,Herculean Strike,Deals medium Phys damage to all foes.,16,% HP
+35,Mind Slice,Deals medium Phys damage to all foes with a chance of Confusion.,14,% HP
+36,Crazy Chain,Deals medium Phys damage to all foes with a chance of Rage.,14,% HP
+37,Seal Bomb,Deals medium Phys damage to all foes with a chance of Silence.,14,% HP
+38,Atom Smasher,Deals medium Phys damage to all foes 1x to 2x with a chance of Fear.,16,% HP
+39,Mustard Bomb,Deals medium Phys damage to all foes with a chance of Enervation.,16,% HP
+40,Navas Nebula,Deals medium Phys damage to all foes with a chance of Exhaustion.,18,% HP
+41,Heat Wave,Deals medium Phys damage to all foes.,16,% HP
+42,Blade of Fury,Deals medium Phys damage to all foes 2x to 4x.,18,% HP
+43,Virus Wave,Deals heavy Phys damage to all foes with a chance of Poison.,16,% HP
+44,Vicious Strike,Deals heavy Phys damage to all foes.,18,% HP
+45,Deathbound,Deals heavy Phys damage to all foes.,20,% HP
+46,Arrow Rain,Deals heavy Phys damage to all foes 2x.,18,% HP
+47,Aeon Rain,Deals medium Phys damage to all foes 1x to 3x.,18,% HP
+48,Blight,Deals heavy Phys damage to all foes with a chance of Poison.,16,% HP
+49,Myriad Arrows,Deals heavy Phys damage to all foes 1x to 3x.,22,% HP
+50,Akasha Arts,Deals heavy Phys damage to all foes 1x to 2x.,18,% HP
+51,Agneyastra,Deals heavy Phys damage to all foes 1x to 3x.,24,% HP
+52,Vorpal Blade,Deals heavy Phys damage to all foes.,25,% HP
+53,Hassou Tobi,Deals light Phys damage to all foes 8x.,25,% HP
+54,Pralaya,Deals severe Phys damage to all foes with a high chance of instant kills. (50% chance),25,% HP
+55,Agi,Deals light Fire damage to 1 foe.,4,SP
+56,Maragi,Deals light Fire damage to all foes.,10,SP
+57,Agilao,Deals medium Fire damage to 1 foe.,8,SP
+58,Maragion,Deals medium Fire damage to all foes.,16,SP
+59,Agidyne,Deals heavy Fire damage to 1 foe.,12,SP
+60,Maragidyne,Deals heavy Fire damage to all foes.,22,SP
+61,Ragnarok,Deals severe Fire damage to 1 foe.,48,SP
+62,Burning Petals,Deals severe Fire damage to all foes.,34,SP
+63,Bufu,Deals light Ice damage to 1 foe.,4,SP
+64,Mabufu,Deals light Ice damage to all foes.,10,SP
+65,Bufula,Deals medium Ice damage to 1 foe.,8,SP
+66,Mabufula,Deals medium Ice damage to all foes.,16,SP
+67,Bufudyne,Deals heavy Ice damage to 1 foe.,12,SP
+68,Mabufudyne,Deals heavy Ice damage to all foes.,22,SP
+69,Niflheim,Deals severe Ice damage to 1 foe.,48,SP
+70,Zio,Deals light Elec damage to 1 foe.,4,SP
+71,Mazio,Deals light Elec damage to all foes.,10,SP
+72,Zionga,Deals medium Elec damage to 1 foe.,8,SP
+73,Mazionga,Deals medium Elec damage to all foes.,16,SP
+74,Ziodyne,Deals heavy Elec damage to 1 foe.,12,SP
+75,Maziodyne,Deals heavy Elec damage to all foes.,22,SP
+76,Thunder Reign,Deals severe Elec damage to 1 foe.,48,SP
+77,Garu,Deals light Wind damage to 1 foe.,4,SP
+78,Magaru,Deals light Wind damage to all foes.,10,SP
+79,Garula,Deals medium Wind damage to 1 foe.,8,SP
+80,Magarula,Deals medium Wind damage to all foes.,16,SP
+81,Garudyne,Deals heavy Wind damage to 1 foe.,12,SP
+82,Magarudyne,Deals heavy Wind damage to all foes.,22,SP
+83,Panta Rhei,Deals severe Wind damage to 1 foe.,48,SP
+84,Hama,"Light: low chance of instant kill, 1 foe. (40% chance)",8,SP
+85,Mahama,"Light: low chance of instant kill, all foes. (30% chance)",18,SP
+86,Hamaon,"Light: high chance of instant kill, 1 foe. (60% chance)",15,SP
+87,Mahamaon,"Light: high chance of instant kill, all foes. (40% chance)",34,SP
+88,God's Judgment,Light: chance of reducing foes to 1/2 HP.,48,SP
+89,Samsara,"Light: very high chance of instant kill, all foes. (60% chance)",44,SP
+90,Mudo,"Darkness: low chance of instant kill, 1 foe. (40% chance)",8,SP
+91,Ghastly Wail,Instantly kills foes who are fearful.,28,SP
+92,Mamudo,"Darkness: low chance of instant kill, all foes. (30% chance)",18,SP
+93,Mudoon,"Darkness: high chance of instant kill, 1 foe. (60% chance)",15,SP
+94,Mamudoon,"Darkness: high chance of instant kill, all foes. (40% chance)",34,SP
+95,Hell's Judgment,Darkness: chance of reducing foes to 1/2 HP.,48,SP
+96,Die for Me!,"Darkness: very high chance of instant kill, all foes. (60% chance)",44,SP
+97,Life Drain,Drains 30 HP from 1 foe.,3,SP
+98,Spirit Drain,Drains 30 SP from 1 foe.,3,SP
+99,Foul Breath,Increase 1 foe's susceptibility to ailments and Light/Dark skills.,8,SP
+100,Stagnant Air,Increase all foe's susceptibility to ailments and Light/Dark skills.,5,SP
+101,Megido,Deals medium Almighty damage to all foes.,18,SP
+102,Megidola,Deals heavy Almighty damage to all foes.,32,SP
+103,Megidolaon,Deals severe Almighty damage to all foes.,60,SP
+104,Black Viper,Deals massive Almighty damage to 1 foe.,64,SP
+105,Morning Star,Deals massive Almighty damage to all foes.,72,SP
+106,Evil Touch,Instills Fear in 1 foe (40% chance). (-Crit. DEF and may lose turn or escape),5,SP
+107,Evil Smile,Instills Fear in all foes (30% chance).,12,SP
+108,Pulinpa,"Confuses* 1 foe (40% chance). (May attack ally, lose turn, or waste 3% money)",5,SP
+109,Tentarafoo,Confuses* all foes (30% chance).,12,SP
+110,Poisma,"Poisons 1 foe (40% chance). (-5% HP/turn, -50% STR)",5,SP
+111,Poison Mist,Poisons all foes (30% chance).,12,SP
+112,Balzac,"Enrages 1 foe (40% chance). (Doubles STR, uncontrollable, auto attacks with weapon)",5,SP
+113,Valiant Dance,Enrages all foes (30% chance).,12,SP
+114,Makajam,Silences 1 foe (40% chance). (Unable to use Skills or change Persona),5,SP
+115,Foolish Whisper,Silences all foes (30% chance).,12,SP
+116,Soul Break,Exhausts 1 foe (40% chance). (-10% SP/turn),5,SP
+117,Anima Freeze,Exhausts to all foes (30% chance).,12,SP
+118,Enervation,Enervates 1 foe (40% chance). (-50% STR/MAG/END),5,SP
+119,Old One,Enervates all foes (30% chance).,12,SP
+120,Kamui Miracle,Anything could happen...|||All allies and/or all foes' HP and SP fully recovered.|All allies and/or all foes downed.|All allies and/or all foes inflicted with random status ailment.|Nothing.,25,SP
+121,The Man's Way,Chance of causing Down and Dizzy to all foes.,30,SP
+122,Dia,Slightly restores 1 ally's HP.,3,SP
+123,Media,Slightly restores party's HP.,7,SP
+124,Diarama,Moderately restores 1 ally's HP.,6,SP
+125,Mediarama,Moderately restores party's HP.,12,SP
+126,Diarahan,Fully restores 1 ally's HP.,18,SP
+127,Mediarahan,Fully restores party's HP.,30,SP
+128,Recarm,Revives 1 ally with 50% HP.,8,SP
+129,Samarecarm,Revives 1 ally with full HP.,18,SP
+130,Patra,"Dispels Rage, Fear, and Confusion (1 ally).",3,SP
+131,Re Patra,Recovers 1 ally from Knockdown or Dizzy status.,3,SP
+132,Me Patra,"Dispels Rage, Fear, and Confusion (party).",6,SP
+133,Posumudi,Neutralizes Poison (1 ally).,3,SP
+134,Mutudi,Cures Silence (1 ally).,3,SP
+135,Nervundi,Cures Exhaustion and Enervation (1 ally).,3,SP
+136,Energy Shower,Cures Exhaustion and Enervation (party).,18,SP
+137,Amrita,Cures all ailments except Down and Death (party).,12,SP
+138,Salvation,Fully restores party's HP. Cures ailments.,40,SP
+139,Tarukaja,Increases 1 ally's Attack for 3 turns. (Raises one ally's physical/magical offensive strength for three turns.),12,SP
+140,Rakukaja,Increases 1 ally's Defense for 3 turns. (Raises one ally's physical/magical defensive strength for three turns.),12,SP
+141,Sukukaja,Increases 1 ally's Hit/Evasion rates for 3 turns.,12,SP
+142,Matarukaja,Increases Attack for 3 turns (party).,24,SP
+143,Marakukaja,Increases Defense for 3 turns (party).,24,SP
+144,Masukukaja,Increases Hit/Evasion rates for 3 turns (party).,24,SP
+145,Youthful Wind,Moderately restores HP and increases Hit/Evasion rates for 3 turns (party).,25,SP
+146,Heat Riser,"Increases 1 ally's Attack, Defense, and Hit/Evasion rates for 3 turns.",30,SP
+147,Dragon Hustle,"Increases Attack, Defense, and Hit/Evasion rates for 3 turns (party).",150,SP
+148,Dekunda,"Nullifies stat penalties on party. (Offsets the effects of ""-nda"" magic for all allies.)",10,SP
+149,Dekaja,"Nullifies stat bonuses on all foes. (Offsets the effects of all enemies' ""-kaja"" magic.)",10,SP
+150,Tarunda,Decreases 1 foe's Attack for 3 turns. (Reduces one enemy's physical/offensive magic strength for three turns.),12,SP
+151,Rakunda,Decreases 1 foe's Defense for 3 turns. (Reduces one enemy's physical and magic defensive power for three turns.),12,SP
+152,Sukunda,Decreases 1 foe's Hit/Evasion rates for 3 turns.,12,SP
+153,Matarunda,Decreases all foes' Attack for 3 turns.,24,SP
+154,Marakunda,Decreases all foes' Defense for 3 turns.,24,SP
+155,Masukunda,Decreases all foes' Hit/Evasion rates for 3 turns.,24,SP
+156,Debilitate,"Decreases 1 foe's Attack, Defense, and Hit/Evasion rates for 3 turns.",30,SP
+157,Red Wall,Add Fire resistance to 1 ally (for 3 turns).,18,SP
+158,White Wall,Add Ice resistance to 1 ally (for 3 turns).,18,SP
+159,Blue Wall,Add Elec resistance to 1 ally (for 3 turns).,18,SP
+160,Green Wall,Add Wind resistance to 1 ally (for 3 turns).,18,SP
+161,Fire Break,Nullifies 1 foe's Fire resistance (for 3 turns).,15,SP
+162,Ice Break,Nullifies 1 foe's Ice resistance (for 3 turns).,15,SP
+163,Elec Break,Nullifies 1 foe's Elec resistance (for 3 turns).,15,SP
+164,Wind Break,Nullifies 1 foe's Wind resistance (for 3 turns).,15,SP
+165,Rebellion,Increases Critical rate for 3 turns (1 ally).,5,SP
+166,Revolution,Greatly increases Critical rate for 3 turns (all).,5,SP
+167,Power Charge,"Next physical attack, physical skill, or Almighty physical attack will be 250% greater in power.",15,SP
+168,Mind Charge,"Next Fire, Ice, Elec, Wind, or Almighty magical attack will be 250% greater in power.",15,SP
+169,Tetrakarn,Barrier that reflects phys dmg once. (1 ally),36,SP
+170,Makarakarn,Barrier that reflects magic dmg once. (1 ally  excludes Almighty attacks),36,SP
+171,Shield of Justice,Shields the party from all damage once.,160,SP
+172,Tetra Break,Negates all foes' Tetrakarn.,18,SP
+173,Makara Break,Negates all foes' Makarakarn.,18,SP
+174,Tetraja,Nullifies instant kill attack once (1 ally).,24,SP
+175,Trafuri,Enables escape from most battles. (100% chance to escape normal battles),24,SP
+176,Traesto,Instantly escape from a dungeon. (Not available during combat),18,SP
+177,Analysis,Reveal an enemy stats and weak points. (Excludes Bosses),0,Passive
+178,Full Analysis,"Reveal an enemy's stats, weak points, and skills. (Excludes Bosses)",0,Passive
+179,Third Eye,Reveal the effectiveness of an attack (after target has been attacked with the same affinity).,0,Passive
+180,Healing Wave,Recover 5% HP after battle (party).,0,Passive
+181,Certain Escape,Escape random battles successfully.,0,Passive
+182,Relaxing Wave,Recover 5% SP after battle (party).,0,Passive
+183,Treasure Radar,Reveal the location of treasure chests on each floor.,0,Passive
+184,Enemy Radar,Reveal the location of Shadows on each floor over a wide area.,0,Passive
+185,Weakness Scan,Reveal an enemy's affinity at the start of battle (weakness or immunity).,0,Passive
+186,Complete Analysis,Reveals all elemental affinities on all enemies.,0,Passive
+187,Counter,10% chance of reflecting Phys attacks. Does not stack.,0,Passive
+188,Counterstrike,15% chance of reflecting Phys attacks. Does not stack.,0,Passive
+189,High Counter,20% chance of reflecting Phys attacks. Does not stack.,0,Passive
+190,Dodge Physical,Doubles evasion rate against Phys attacks.,0,Passive
+191,Dodge Fire,Doubles evasion rate against Fire attacks.,0,Passive
+192,Dodge Ice,Doubles evasion rate against Ice attacks.,0,Passive
+193,Dodge Elec,Doubles evasion rate against Elec attacks.,0,Passive
+194,Dodge Wind,Doubles evasion rate against Wind attacks.,0,Passive
+195,Evade Physical,Triples evasion rate against Phys attacks.,0,Passive
+196,Evade Fire,Triples evasion rate against Fire attacks.,0,Passive
+197,Evade Ice,Triples evasion rate against Ice attacks.,0,Passive
+198,Evade Elec,Triples evasion rate against Elec attacks.,0,Passive
+199,Evade Wind,Triples evasion rate against Wind attacks.,0,Passive
+200,Resist Physical,Reduces damage from Phys attacks. (Voids Phys weakness),0,Passive
+201,Resist Fire,Reduces damage from Fire attacks. (Voids Fire weakness),0,Passive
+202,Resist Ice,Reduces damage from Ice attacks. (Voids Ice weakness),0,Passive
+203,Resist Elec,Reduces damage from Elec attacks. (Voids Elec weakness),0,Passive
+204,Resist Wind,Reduces damage from Wind attacks. (Voids Wind weakness),0,Passive
+205,Resist Light,Reduces chance of instant death from Light attacks. (Voids Light weakness),0,Passive
+206,Resist Dark,Reduces chance of instant death from Darkness attacks. (Voids Dark weakness),0,Passive
+207,Resist Fear,Lessens instances of succumbing to Fear attacks.,0,Passive
+208,Resist Confuse,Reduces chance of being Confused.,0,Passive
+209,Resist Poison,Reduces chance of being Poisoned.,0,Passive
+210,Resist Rage,Reduces chance of being Enraged.,0,Passive
+211,Resist Mute,Reduces chance of being Silenced.,0,Passive
+212,Resist Enervate,Reduces chance of being Enervated.,0,Passive
+213,Resist Exhaust,Reduces chance of being Exhausted.,0,Passive
+214,Resist Dizzy,Reduces chance of being Dizzy.,0,Passive
+215,Null Physical,Become immune to Phys attacks. (Overwrites Resist Phys),0,Passive
+216,Null Fire,Becomes immune to Fire attacks. (Overwrites Resist Fire),0,Passive
+217,Null Ice,Becomes immune to Ice attacks. (Overwrites Resist Ice),0,Passive
+218,Null Elec,Becomes immune to Elec attacks. (Overwrites Resist Elec),0,Passive
+219,Null Wind,Becomes immune to Wind attacks. (Overwrites Resist Wind),0,Passive
+220,Null Light,Becomes immune to Light attacks. (Overwrites Resist Light),0,Passive
+221,Null Dark,Becomes immune to Darkness attacks. (Overwrites Resist Dark),0,Passive
+222,Null Fear,Become immune to Fear attacks.,0,Passive
+223,Null Confuse,Become immune to Confusion attacks.,0,Passive
+224,Null Poison,Become immune to Poison attacks.,0,Passive
+225,Null Rage,Become immune to Rage attacks.,0,Passive
+226,Null Mute,Become immune to Silence attacks.,0,Passive
+227,Null Enervate,Become immune to Enervation attacks.,0,Passive
+228,Null Exhaust,Become immune to Exhaustion attacks.,0,Passive
+229,Null Dizzy,Cannot become Dizzy after being knocked down.,0,Passive
+230,Repel Physical,Repels Phys attacks. (Overwrites Resist/Null Phys),0,Passive
+231,Repel Fire,Repels Fire attacks. (Overwrites Resist/Null Fire),0,Passive
+232,Repel Ice,Repels Ice attacks. (Overwrites Resist/Null Ice),0,Passive
+233,Repel Elec,Repels Elec attacks. (Overwrites Resist/Null Elec),0,Passive
+234,Repel Wind,Repels Wind attacks. (Overwrites Resist/Null Wind),0,Passive
+235,Repel Light,Repels Light attacks. (Overwrites Resist/Null Light),0,Passive
+236,Repel Dark,Repels Darkness attacks. (Overwrites Resist/Null Dark),0,Passive
+237,Absorb Physical,Absorbs damage from Phys attacks. (Overwrites Resist/Null/Repel Phys),0,Passive
+238,Absorb Fire,Absorbs damage from Fire attacks. (Overwrites Resist/Null/Repel Fire),0,Passive
+239,Absorb Ice,Absorbs damage from Ice attacks. (Overwrites Resist/Null/Repel Ice),0,Passive
+240,Absorb Elec,Absorbs damage from Elec attacks. (Overwrites Resist/Null/Repel Elec),0,Passive
+241,Absorb Wind,Absorbs damage from Wind attacks. (Overwrites Resist/Null/Repel Wind),0,Passive
+242,Endure,Restores 1 HP upon death 1x per battle.,0,Passive
+243,Enduring Soul,Restores full HP upon death 1x per battle.,0,Passive
+244,Endure Light,Automatically survive instant death 1 time from a Light attack with 1 HP.,0,Passive
+245,Endure Dark,Automatically survive instant death 1 time from a Darkness attack with 1 HP.,0,Passive
+246,Survive Light,50% chance of surviving instant death 1 time from a Light attack with 1 HP.,0,Passive
+247,Survive Dark,50% chance of surviving instant death 1 time from a Darkness attack with 1 HP.,0,Passive
+248,Fire Boost,Strengthens Fire attacks by 25%.,0,Passive
+249,Ice Boost,Strengthens Ice attacks by 25%.,0,Passive
+250,Elec Boost,Strengthens Elec attacks by 25%.,0,Passive
+251,Wind Boost,Strengthens Wind attacks by 25%.,0,Passive
+252,Hama Boost,Light-based attacks are 1.5 times more effective.,0,Passive
+253,Mudo Boost,Darkness-based attacks are 1.5 times more effective.,0,Passive
+254,Ailment Boost,All status ailment attacks are 1.5 times more effective.,0,Passive
+255,Fear Boost,Increases odds of inflicting Fear (1.5x).,0,Passive
+256,Confuse Boost,Increases odds of inflicting Confusion (1.5x).,0,Passive
+257,Poison Boost,Increases odds of inflicting Poison (1.5x).,0,Passive
+258,Rage Boost,Increases odds of inflicting Rage (1.5x).,0,Passive
+259,Silence Boost,Increases odds of inflicting Silence (1.5x).,0,Passive
+260,Enervate Boost,Enervation-based attacks are 1.5 times more effective.,0,Passive
+261,Exhaust Boost,Exhaustion-based attacks are 1.5 times more effective.,0,Passive
+262,Dizzy Boost,Increases chances of inflicting Dizzy during a knockdown.,0,Passive
+263,Fire Amp,Strengthens Fire attacks by 50%.,0,Passive
+264,Ice Amp,Strengthens Ice attacks by 50%.,0,Passive
+265,Elec Amp,Strengthens Elec attacks by 50%.,0,Passive
+266,Wind Amp,Strengthens Wind attacks by 50%.,0,Passive
+267,Auto-Tarukaja,Automatic Tarukaja at the start of battle.,0,Passive
+268,Auto-Rakukaja,Automatic Rakukaja at the start of battle.,0,Passive
+269,Auto-Sukukaja,Automatic Sukukaja at the start of battle.,0,Passive
+270,Auto-Mataru,Party begins the battle with Matarukaja. (Overwrites Auto-Tarukaja),0,Passive
+271,Auto-Maraku,Party begins the battle with Marakukaja. (Overwrites Auto-Rakukaja),0,Passive
+272,Auto-Masuku,Party begins the battle with Masukukaja. (Overwrites Auto-Sukukaja),0,Passive
+273,Alertness,Lowers odds of being taken by surprise. (Decreases enemy advantage),0,Passive
+274,Apt Pupil,Increases user's Critical Rate.,0,Passive
+275,Sharp Student,Lowers odds of sustaining crit dmg.,0,Passive
+276,Arms Master,Halves HP cost for physical skills.,0,Passive
+277,Spell Master,Halves SP cost for magic skills.,0,Passive
+278,Ali Dance,The Hit rate of an attacking unit is reduced by half.,0,Passive
+279,Firm Stance,"Always take half damage, but you can never dodge.",0,Passive
+280,Angelic Grace,Doubles evasion rate against all attacks but Light/Darkness/Almighty.,0,Passive
+281,Divine Grace,Effects of healing magic are increased by 50%.,0,Passive
+282,Fast Heal,Halves the time needed to recover from ailments.,0,Passive
+283,Insta-Heal,Recovers from ailments in 1 turn.,0,Passive
+284,Growth 1,Persona gains 1/4 EXP while inactive.,0,Passive
+285,Growth 2,Persona gains 1/2 EXP while inactive. (Overwrites Growth 1),0,Passive
+286,Growth 3,Persona gains full EXP even while inactive. (Overwrites Growth 1/Growth 2),0,Passive
+287,Regenerate 1,Restores 2% of max HP each turn in battle.,0,Passive
+288,Regenerate 2,Recovers 4% of max HP each turn in battle.,0,Passive
+289,Regenerate 3,Recovers 6% of max HP each turn in battle.,0,Passive
+290,Invigorate 1,Recovers 3 SP each turn in battle.,0,Passive
+291,Invigorate 2,Recovers 5 SP each turn in battle.,0,Passive
+292,Invigorate 3,Recovers 7 SP each turn in battle.,0,Passive
+293,Cool Breeze,Recover 8% HP and SP after a successful battle.,0,Passive
+294,Victory Cry,Recover full HP and SP after a successful battle.,0,Passive
+295,Unshaken Will,Protects user from Rage/Fear/Silence/Enervation/Confusion.,0,Passive
