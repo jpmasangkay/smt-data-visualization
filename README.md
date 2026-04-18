@@ -83,6 +83,16 @@ python main.py
 
 ```
 smt-data-visualization/
+├── src/                             # Modular source package
+│   ├── __init__.py                  # Package init
+│   ├── constants.py                 # Colors, dimensions, building definitions
+│   ├── data_loader.py               # CSV data loading
+│   ├── world.py                     # Isometric projection & building renderer
+│   ├── renderer.py                  # Fast software 3D chart engine
+│   ├── charts.py                    # 12 matplotlib chart renderers
+│   ├── scenes.py                    # 12 fast 3D scene builders
+│   ├── entities.py                  # Player, Camera, particle systems
+│   └── game.py                      # Main Game class with all logic
 ├── data/                            # Datasets for visualization
 │   ├── personas.csv                 # Core stats and levels
 │   ├── skills.csv                   # Skill costs and elements
@@ -91,7 +101,7 @@ smt-data-visualization/
 ├── assets/                          # Sprites and visual assets
 │   ├── characters/                  # Character sprite sheets
 │   └── buildings/                   # Velvet Room, Junes Mall animated sprites
-├── main.py                          # Main entry point, renderer, and logic
+├── main.py                          # Application entry point
 ├── requirements.txt                 # Project module dependencies
 └── README.md                        # Documentation
 ```
