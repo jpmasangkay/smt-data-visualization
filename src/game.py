@@ -13,6 +13,7 @@ Improvements integrated:
   #12 Day/night ambient cycle
   #13 FPS counter (F3 toggle)
   #14 Fullscreen toggle (F11)
+  #15 Cinematic game intro (Persona / SMT inspired)
 """
 from __future__ import annotations
 
@@ -67,6 +68,10 @@ class Game:
         pygame.display.set_caption(
             "THE MIDNIGHT CHANNEL — Persona 4 Data Explorer")
         self.clock = pygame.time.Clock()
+
+        # (#15) Play cinematic intro before anything else loads
+        self.running = True
+        self._play_intro()
 
         # (#3) Show loading splash before heavy init
         self._show_loading_screen("Entering the Midnight Channel...", 0.0, min_time=1.5)
@@ -1571,7 +1576,702 @@ class Game:
             self.screen.blit(fps_bg, (8, 8))
             self.screen.blit(fps_text, (14, 11))
 
+    # ── (#15) Cinematic Game Intro — Persona / SMT Inspired ────────────────────
+
+    def _intro_check_skip(self) -> bool:
+        """Check if user pressed a skip key during intro."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+                return True
+            if event.type == pygame.KEYDOWN:
+                if event.key in (pygame.K_RETURN, pygame.K_SPACE, pygame.K_ESCAPE,
+                                 pygame.K_e):
+                    return True
+        return False
+
+    def _intro_draw_tv_static(self, surface: pygame.Surface, intensity: float,
+                               seed: int = 0) -> None:
+        """Draw CRT TV static noise over the entire surface."""
+        static_surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        rng = random.Random(seed)
+        count = int(1200 * intensity)
+        for _ in range(count):
+            sx = rng.randint(0, SCREEN_W)
+            sy = rng.randint(0, SCREEN_H)
+            a = rng.randint(5, max(5, int(30 * intensity)))
+            sz = rng.randint(1, 3)
+            pygame.draw.rect(static_surf, (255, 255, 255, a), (sx, sy, sz, sz))
+        surface.blit(static_surf, (0, 0))
+
+    def _intro_draw_scanlines(self, surface: pygame.Surface,
+                                alpha: int = 25) -> None:
+        """Draw CRT horizontal scanlines."""
+        sl = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        for y in range(0, SCREEN_H, 2):
+            pygame.draw.line(sl, (0, 0, 0, alpha), (0, y), (SCREEN_W, y))
+        surface.blit(sl, (0, 0))
+
+    def _intro_draw_glitch(self, surface: pygame.Surface, intensity: float,
+                            t: float) -> None:
+        """Draw horizontal glitch distortion bands."""
+        if intensity < 0.05:
+            return
+        rng = random.Random(int(t * 30))
+        num_bands = int(5 * intensity)
+        for _ in range(num_bands):
+            band_y = rng.randint(0, SCREEN_H - 20)
+            band_h = rng.randint(2, int(12 * intensity))
+            shift = rng.randint(-int(40 * intensity), int(40 * intensity))
+            if band_y + band_h <= SCREEN_H and band_h > 0:
+                try:
+                    strip = surface.subsurface((0, band_y, SCREEN_W, band_h)).copy()
+                    # Draw black over original position
+                    pygame.draw.rect(surface, (0, 0, 0), (0, band_y, SCREEN_W, band_h))
+                    surface.blit(strip, (shift, band_y))
+                except ValueError:
+                    pass
+
+    def _intro_typewriter(self, text: str, font: pygame.font.Font,
+                            color: tuple, center_x: int, y: int,
+                            progress: float,
+                            surface: pygame.Surface) -> None:
+        """Draw text with typewriter reveal effect."""
+        chars = max(0, int(len(text) * min(1.0, progress)))
+        if chars == 0:
+            return
+        visible = text[:chars]
+        rendered = font.render(visible, True, color)
+        rect = rendered.get_rect(center=(center_x, y))
+        # Text shadow
+        shadow = font.render(visible, True, (0, 0, 0))
+        sr = shadow.get_rect(center=(center_x + 2, y + 2))
+        surface.blit(shadow, sr)
+        surface.blit(rendered, rect)
+
+    def _intro_draw_particles(self, surface: pygame.Surface, t: float,
+                                color: tuple, count: int = 30) -> None:
+        """Draw floating mystical particles."""
+        rng = random.Random(42)
+        ps = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        for i in range(count):
+            base_x = rng.randint(0, SCREEN_W)
+            base_y = rng.randint(0, SCREEN_H)
+            dx = math.sin(t * 0.8 + i * 0.5) * 40
+            dy = math.cos(t * 0.6 + i * 0.3) * 30 - t * 15
+            x = (base_x + dx) % SCREEN_W
+            y = (base_y + dy) % SCREEN_H
+            phase = math.sin(t * 2 + i * 0.7)
+            alpha = int(30 + 40 * max(0, phase))
+            r = max(1, int(2 + phase * 2))
+            pygame.draw.circle(ps, (*color[:3], alpha), (int(x), int(y)), r)
+            # Glow
+            if phase > 0.3:
+                pygame.draw.circle(ps, (*color[:3], alpha // 4),
+                                    (int(x), int(y)), r * 3)
+        surface.blit(ps, (0, 0))
+
+    def _play_intro(self) -> None:
+        """Play the multi-phase cinematic intro sequence (~66 seconds).
+
+        Synced to 'Dream of Butterfly' (Persona PSP OST) starting at 1:00.
+
+        Phases (total ~66 seconds):
+          1. TV Static power-on        —  8s
+          2. Midnight Channel text      — 16s
+          3. Velvet Room contract        — 18s
+          4. Persona Awakening          — 14s
+          5. Title Reveal + fade-out    — 10s
+        """
+        # Fonts for intro
+        font_huge = pygame.font.SysFont("Segoe UI", 56, bold=True)
+        font_large = pygame.font.SysFont("Segoe UI", 36, bold=True)
+        font_medium = pygame.font.SysFont("Segoe UI", 24)
+        font_small = pygame.font.SysFont("Segoe UI", 18)
+        font_tiny = pygame.font.SysFont("Segoe UI", 14)
+        font_igor = pygame.font.SysFont("Segoe UI", 22, bold=True)
+
+        # ── Start intro music ──
+        _intro_music_playing = False
+        _intro_music_path = os.path.join(ASSETS_DIR, "sounds", "intro_music.wav")
+        if os.path.exists(_intro_music_path):
+            try:
+                pygame.mixer.quit()
+                pygame.mixer.init(frequency=44100, size=-16, channels=2,
+                                  buffer=1024)
+                pygame.mixer.music.load(_intro_music_path)
+                pygame.mixer.music.set_volume(0.55)
+                pygame.mixer.music.play(loops=0)
+                _intro_music_playing = True
+            except Exception:
+                pass
+
+        def _stop_intro_music():
+            """Fade out intro music."""
+            nonlocal _intro_music_playing
+            if _intro_music_playing:
+                try:
+                    pygame.mixer.music.fadeout(800)
+                except Exception:
+                    pass
+                _intro_music_playing = False
+
+        # ═══════════════════════════════════════════════════════════════════════
+        # PHASE 1: TV Static Power-On (8 seconds)
+        # ═══════════════════════════════════════════════════════════════════════
+        phase_start = time.monotonic()
+        phase_duration = 8.0
+
+        while True:
+            if self._intro_check_skip():
+                _stop_intro_music()
+                return
+            if not self.running:
+                _stop_intro_music()
+                return
+
+            elapsed = time.monotonic() - phase_start
+            if elapsed >= phase_duration:
+                break
+
+            self.clock.tick(FPS)
+            progress = elapsed / phase_duration
+
+            self.screen.fill((0, 0, 0))
+
+            if progress < 0.08:
+                flash_t = progress / 0.08
+                brightness = int(255 * (1.0 - flash_t) * 0.7)
+                line_h = max(1, int(flash_t * SCREEN_H))
+                line_y = SCREEN_H // 2 - line_h // 2
+                flash = pygame.Surface((SCREEN_W, line_h), pygame.SRCALPHA)
+                flash.fill((brightness, brightness,
+                            int(brightness * 0.9), 200))
+                self.screen.blit(flash, (0, line_y))
+            elif progress < 0.35:
+                static_t = (progress - 0.08) / 0.27
+                intensity = 1.0 - static_t * 0.3
+                self._intro_draw_tv_static(self.screen, intensity,
+                                            seed=int(elapsed * 30))
+                if random.random() < 0.12:
+                    flicker = pygame.Surface((SCREEN_W, SCREEN_H),
+                                             pygame.SRCALPHA)
+                    flicker.fill((255, 255, 255, random.randint(8, 35)))
+                    self.screen.blit(flicker, (0, 0))
+                if random.random() < 0.06:
+                    self._intro_draw_glitch(self.screen, 0.6, elapsed)
+            else:
+                fade_t = (progress - 0.35) / 0.65
+                intensity = max(0.2, 0.7 * (1.0 - fade_t))
+                self._intro_draw_tv_static(self.screen, intensity,
+                                            seed=int(elapsed * 15))
+                bg_alpha = int(200 * fade_t)
+                bg = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+                bg.fill((8, 4, 28, bg_alpha))
+                self.screen.blit(bg, (0, 0))
+
+            self._intro_draw_scanlines(self.screen, 15)
+
+            if progress > 0.6:
+                hint_a = int(80 * min(1.0, (progress - 0.6) / 0.3))
+                hint = font_tiny.render("Press ENTER to skip", True,
+                                        (150, 140, 170))
+                hint.set_alpha(hint_a)
+                self.screen.blit(hint,
+                                 hint.get_rect(center=(SCREEN_W // 2,
+                                                       SCREEN_H - 30)))
+            pygame.display.flip()
+
+        # ═══════════════════════════════════════════════════════════════════════
+        # PHASE 2: Midnight Channel — cryptic text (16 seconds)
+        # ═══════════════════════════════════════════════════════════════════════
+        midnight_lines = [
+            "...",
+            "Can you hear it?",
+            "The signal... between static and silence...",
+            "A world exists beyond the screen.",
+            "Do you seek the truth?",
+        ]
+
+        phase_start = time.monotonic()
+        phase_duration = 16.0
+        time_per_line = phase_duration / len(midnight_lines)
+
+        while True:
+            if self._intro_check_skip():
+                _stop_intro_music()
+                return
+            if not self.running:
+                _stop_intro_music()
+                return
+
+            elapsed = time.monotonic() - phase_start
+            if elapsed >= phase_duration:
+                break
+
+            self.clock.tick(FPS)
+            progress = elapsed / phase_duration
+
+            self.screen.fill((5, 2, 18))
+            self._intro_draw_tv_static(self.screen, 0.15,
+                                        seed=int(elapsed * 10))
+
+            glow_r = int(300 + 50 * math.sin(elapsed * 0.8))
+            glow_surf = pygame.Surface((glow_r * 2, glow_r * 2),
+                                        pygame.SRCALPHA)
+            glow_a = int(15 + 8 * math.sin(elapsed * 1.0))
+            for ring in range(5):
+                r = glow_r - ring * glow_r // 5
+                a = max(1, glow_a - ring * 3)
+                pygame.draw.circle(glow_surf, (255, 220, 0, a),
+                                    (glow_r, glow_r), r)
+            self.screen.blit(glow_surf,
+                              (SCREEN_W // 2 - glow_r,
+                               SCREEN_H // 2 - glow_r))
+
+            total_lines = len(midnight_lines)
+            current_idx = min(total_lines - 1,
+                              int(elapsed / time_per_line))
+            line = midnight_lines[current_idx]
+            line_start = current_idx * time_per_line
+            line_elapsed = elapsed - line_start
+
+            type_progress = min(1.0, line_elapsed / 2.5)
+            fade_in = min(1.0, line_elapsed / 0.5)
+            time_left = time_per_line - line_elapsed
+            if time_left < 0.6 and current_idx < total_lines - 1:
+                fade_out = max(0.0, time_left / 0.6)
+            else:
+                fade_out = 1.0
+            alpha = int(255 * fade_in * fade_out)
+
+            if current_idx == total_lines - 1:
+                color = C_GOLD
+                f = font_large
+            else:
+                color = (180, 175, 200)
+                f = font_medium
+
+            chars = max(0, int(len(line) * type_progress))
+            if chars > 0:
+                visible = line[:chars]
+                rendered = f.render(visible, True, color)
+                rendered.set_alpha(alpha)
+                shadow = f.render(visible, True, (0, 0, 0))
+                shadow.set_alpha(alpha)
+                cy = SCREEN_H // 2
+                sr = shadow.get_rect(center=(SCREEN_W // 2 + 2, cy + 2))
+                rr = rendered.get_rect(center=(SCREEN_W // 2, cy))
+                self.screen.blit(shadow, sr)
+                self.screen.blit(rendered, rr)
+
+                if type_progress < 1.0 and int(elapsed * 4) % 2 == 0:
+                    cursor_x = rr.right + 3
+                    cursor_surf = pygame.Surface((2, rr.height),
+                                                  pygame.SRCALPHA)
+                    cursor_surf.fill((*color[:3], alpha))
+                    self.screen.blit(cursor_surf, (cursor_x, rr.y))
+
+            if random.random() < 0.04:
+                self._intro_draw_glitch(self.screen, 0.3, elapsed)
+
+            self._intro_draw_scanlines(self.screen, 18)
+            hint = font_tiny.render("Press ENTER to skip", True,
+                                     (100, 95, 120))
+            self.screen.blit(hint,
+                              hint.get_rect(center=(SCREEN_W // 2,
+                                                    SCREEN_H - 30)))
+            pygame.display.flip()
+
+        # ═══════════════════════════════════════════════════════════════════════
+        # PHASE 3: Velvet Room Contract (18 seconds)
+        # ═══════════════════════════════════════════════════════════════════════
+        velvet_lines = [
+            ("Welcome... to the Velvet Room.", (130, 120, 200), font_igor),
+            ("My name is Igor.", (130, 120, 200), font_igor),
+            ("This place exists between\n    dream and reality,",
+             (160, 150, 220), font_medium),
+            ("        mind and matter.",
+             (160, 150, 220), font_medium),
+            ("A great trial awaits you.", (200, 180, 255), font_igor),
+            ("Now then... let us begin.", C_GOLD, font_large),
+        ]
+
+        phase_start = time.monotonic()
+        phase_duration = 18.0
+        time_per_line = phase_duration / len(velvet_lines)
+
+        while True:
+            if self._intro_check_skip():
+                _stop_intro_music()
+                return
+            if not self.running:
+                _stop_intro_music()
+                return
+
+            elapsed = time.monotonic() - phase_start
+            if elapsed >= phase_duration:
+                break
+
+            self.clock.tick(FPS)
+            progress = elapsed / phase_duration
+
+            for y in range(SCREEN_H):
+                t_bg = y / SCREEN_H
+                r = int(15 + t_bg * 10)
+                g = int(10 + t_bg * 15)
+                b = int(50 + t_bg * 40)
+                pygame.draw.line(self.screen, (r, g, b),
+                                  (0, y), (SCREEN_W, y))
+
+            self._intro_draw_particles(self.screen, elapsed,
+                                        (120, 100, 255), count=40)
+
+            vr_glow = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+            pulse = 0.7 + 0.3 * math.sin(elapsed * 0.8)
+            center_a = int(20 * pulse)
+            for ring in range(8):
+                radius = 200 + ring * 60
+                a = max(1, center_a - ring * 2)
+                pygame.draw.circle(vr_glow, (100, 80, 200, a),
+                                    (SCREEN_W // 2, SCREEN_H // 2), radius)
+            self.screen.blit(vr_glow, (0, 0))
+
+            total_lines = len(velvet_lines)
+            current_idx = min(total_lines - 1,
+                              int(elapsed / time_per_line))
+            line_text, line_color, line_font = velvet_lines[current_idx]
+            line_start = current_idx * time_per_line
+            line_elapsed = elapsed - line_start
+
+            fade_in = min(1.0, line_elapsed / 0.6)
+            type_progress = min(1.0, line_elapsed / 2.5)
+            time_left = time_per_line - line_elapsed
+            if time_left < 0.5 and current_idx < total_lines - 1:
+                fade_out = max(0.0, time_left / 0.5)
+            else:
+                fade_out = 1.0
+            alpha = int(255 * fade_in * fade_out)
+
+            sub_lines = line_text.split("\n")
+            cy = SCREEN_H // 2
+            for si, sub_line in enumerate(sub_lines):
+                chars = max(0, int(len(sub_line) * type_progress))
+                if chars > 0:
+                    visible = sub_line[:chars]
+                    rendered = line_font.render(visible, True, line_color)
+                    rendered.set_alpha(alpha)
+                    shadow = line_font.render(visible, True, (0, 0, 0))
+                    shadow.set_alpha(alpha)
+                    y_pos = cy + si * 35
+                    sr = shadow.get_rect(center=(SCREEN_W // 2 + 2,
+                                                  y_pos + 2))
+                    rr = rendered.get_rect(center=(SCREEN_W // 2, y_pos))
+                    self.screen.blit(shadow, sr)
+                    self.screen.blit(rendered, rr)
+
+            diamond_y = cy - 80
+            dm_pulse = 0.5 + 0.5 * math.sin(elapsed * 2)
+            dm_size = int(8 + 4 * dm_pulse)
+            dm_pts = [
+                (SCREEN_W // 2, diamond_y - dm_size),
+                (SCREEN_W // 2 + dm_size, diamond_y),
+                (SCREEN_W // 2, diamond_y + dm_size),
+                (SCREEN_W // 2 - dm_size, diamond_y),
+            ]
+            dm_glow = pygame.Surface((dm_size * 6, dm_size * 6),
+                                      pygame.SRCALPHA)
+            pygame.draw.circle(dm_glow,
+                                (100, 80, 200, int(30 * dm_pulse)),
+                                (dm_size * 3, dm_size * 3), dm_size * 3)
+            self.screen.blit(dm_glow,
+                              (SCREEN_W // 2 - dm_size * 3,
+                               diamond_y - dm_size * 3))
+            pygame.draw.polygon(self.screen, (180, 160, 255), dm_pts)
+            pygame.draw.polygon(self.screen, (255, 255, 255, 160),
+                                 dm_pts, 2)
+
+            vig = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+            for i in range(60):
+                a = int(50 * (1 - i / 60))
+                pygame.draw.line(vig, (0, 0, 0, a),
+                                  (0, i), (SCREEN_W, i))
+                pygame.draw.line(vig, (0, 0, 0, a),
+                                  (0, SCREEN_H - 1 - i),
+                                  (SCREEN_W, SCREEN_H - 1 - i))
+            self.screen.blit(vig, (0, 0))
+            self._intro_draw_scanlines(self.screen, 10)
+
+            hint = font_tiny.render("Press ENTER to skip", True,
+                                     (80, 75, 110))
+            self.screen.blit(hint,
+                              hint.get_rect(center=(SCREEN_W // 2,
+                                                    SCREEN_H - 30)))
+            pygame.display.flip()
+
+        # ═══════════════════════════════════════════════════════════════════════
+        # PHASE 4: Persona Awakening — "I am thou" (14 seconds)
+        # ═══════════════════════════════════════════════════════════════════════
+        awakening_lines = [
+            "I am thou...",
+            "Thou art I...",
+            "From the sea of thy soul, I come.",
+            "The truth is within your grasp.",
+        ]
+
+        phase_start = time.monotonic()
+        phase_duration = 14.0
+        time_per_line = phase_duration / len(awakening_lines)
+
+        while True:
+            if self._intro_check_skip():
+                _stop_intro_music()
+                return
+            if not self.running:
+                _stop_intro_music()
+                return
+
+            elapsed = time.monotonic() - phase_start
+            if elapsed >= phase_duration:
+                break
+
+            self.clock.tick(FPS)
+            progress = elapsed / phase_duration
+
+            self.screen.fill((4, 2, 12))
+
+            ring_surf = pygame.Surface((SCREEN_W, SCREEN_H),
+                                        pygame.SRCALPHA)
+            for ring in range(6):
+                ring_phase = (elapsed * 0.8 + ring * 1.0) % 5.0
+                ring_r = int(ring_phase * 180)
+                if ring_r > 0:
+                    ring_a = max(0, int(40 * (1.0 - ring_phase / 5.0)))
+                    pygame.draw.circle(ring_surf, (255, 215, 0, ring_a),
+                                        (SCREEN_W // 2, SCREEN_H // 2),
+                                        ring_r, 2)
+            self.screen.blit(ring_surf, (0, 0))
+
+            glow_intensity = min(1.0, progress * 1.2)
+            glow_r = int(150 + 200 * glow_intensity)
+            glow_surf = pygame.Surface((glow_r * 2, glow_r * 2),
+                                        pygame.SRCALPHA)
+            for ring in range(10):
+                r = glow_r - ring * glow_r // 10
+                a = max(1, int(25 * glow_intensity) - ring * 2)
+                color_r = int(255 - ring * 5)
+                color_g = int(215 - ring * 10)
+                pygame.draw.circle(glow_surf,
+                                    (color_r, color_g, 0, a),
+                                    (glow_r, glow_r), r)
+            self.screen.blit(glow_surf,
+                              (SCREEN_W // 2 - glow_r,
+                               SCREEN_H // 2 - glow_r))
+
+            self._intro_draw_particles(self.screen, elapsed,
+                                        C_GOLD, count=50)
+
+            total_lines = len(awakening_lines)
+            current_idx = min(total_lines - 1,
+                              int(elapsed / time_per_line))
+            line = awakening_lines[current_idx]
+            line_start = current_idx * time_per_line
+            line_elapsed = elapsed - line_start
+
+            type_progress = min(1.0, line_elapsed / 2.5)
+            fade_in = min(1.0, line_elapsed / 0.5)
+            time_left = time_per_line - line_elapsed
+            if time_left < 0.6 and current_idx < total_lines - 1:
+                fade_out = max(0.0, time_left / 0.6)
+            else:
+                fade_out = 1.0
+            alpha = int(255 * fade_in * fade_out)
+
+            if current_idx < 2:
+                f = font_huge
+                color = C_GOLD
+            elif current_idx == 2:
+                f = font_large
+                color = (255, 230, 120)
+            else:
+                f = font_large
+                color = (255, 240, 180)
+
+            chars = max(0, int(len(line) * type_progress))
+            if chars > 0:
+                visible = line[:chars]
+                rendered = f.render(visible, True, color)
+                rendered.set_alpha(alpha)
+                for off in [(3, 3), (2, 2), (1, 1)]:
+                    shadow = f.render(visible, True, (40, 20, 0))
+                    shadow.set_alpha(int(alpha * 0.4))
+                    sr = shadow.get_rect(
+                        center=(SCREEN_W // 2 + off[0],
+                                SCREEN_H // 2 + off[1]))
+                    self.screen.blit(shadow, sr)
+                rr = rendered.get_rect(center=(SCREEN_W // 2,
+                                                SCREEN_H // 2))
+                self.screen.blit(rendered, rr)
+
+                text_glow = pygame.Surface(
+                    (rr.width + 40, rr.height + 20), pygame.SRCALPHA)
+                pygame.draw.rect(text_glow,
+                                  (*color[:3],
+                                   int(10 * fade_in * fade_out)),
+                                  text_glow.get_rect(), border_radius=10)
+                self.screen.blit(text_glow, (rr.x - 20, rr.y - 10))
+
+            if progress > 0.9:
+                flash_t = (progress - 0.9) / 0.1
+                flash_a = int(200 * flash_t)
+                flash = pygame.Surface((SCREEN_W, SCREEN_H),
+                                        pygame.SRCALPHA)
+                flash.fill((255, 255, 240, flash_a))
+                self.screen.blit(flash, (0, 0))
+
+            self._intro_draw_scanlines(self.screen, 12)
+            hint = font_tiny.render("Press ENTER to skip", True,
+                                     (100, 90, 60))
+            self.screen.blit(hint,
+                              hint.get_rect(center=(SCREEN_W // 2,
+                                                    SCREEN_H - 30)))
+            pygame.display.flip()
+
+        # ═══════════════════════════════════════════════════════════════════════
+        # PHASE 5: Title Reveal (10 seconds)
+        # ═══════════════════════════════════════════════════════════════════════
+        phase_start = time.monotonic()
+        phase_duration = 10.0
+
+        while True:
+            if self._intro_check_skip():
+                _stop_intro_music()
+                return
+            if not self.running:
+                _stop_intro_music()
+                return
+
+            elapsed = time.monotonic() - phase_start
+            if elapsed >= phase_duration:
+                break
+
+            self.clock.tick(FPS)
+            progress = elapsed / phase_duration
+
+            self.screen.fill((8, 4, 28))
+
+            if progress < 0.08:
+                flash_t = 1.0 - progress / 0.08
+                flash = pygame.Surface((SCREEN_W, SCREEN_H),
+                                        pygame.SRCALPHA)
+                flash.fill((255, 255, 240, int(200 * flash_t)))
+                self.screen.blit(flash, (0, 0))
+
+            title_text = "T H E   M I D N I G H T   C H A N N E L"
+            if progress < 0.2:
+                scale_t = progress / 0.2
+                scale = 2.0 - scale_t * 1.0
+                title_alpha = int(255 * scale_t)
+            else:
+                scale = 1.0
+                title_alpha = 255
+
+            scaled_size = max(20, int(48 * scale))
+            font_title_scaled = pygame.font.SysFont(
+                "Segoe UI", scaled_size, bold=True)
+            title_rendered = font_title_scaled.render(
+                title_text, True, C_GOLD)
+            title_rendered.set_alpha(title_alpha)
+            tr = title_rendered.get_rect(
+                center=(SCREEN_W // 2, SCREEN_H // 2 - 30))
+
+            glow_a = int(15 * min(1.0, progress / 0.3))
+            glow_bg = pygame.Surface((tr.width + 80, tr.height + 40),
+                                      pygame.SRCALPHA)
+            pygame.draw.rect(glow_bg, (255, 215, 0, glow_a),
+                              glow_bg.get_rect(), border_radius=15)
+            self.screen.blit(glow_bg, (tr.x - 40, tr.y - 20))
+
+            title_shadow = font_title_scaled.render(
+                title_text, True, (40, 30, 0))
+            title_shadow.set_alpha(int(title_alpha * 0.5))
+            self.screen.blit(title_shadow,
+                              title_shadow.get_rect(
+                                  center=(SCREEN_W // 2 + 3,
+                                          SCREEN_H // 2 - 27)))
+            self.screen.blit(title_rendered, tr)
+
+            if progress > 0.25:
+                sub_alpha = int(255 * min(1.0, (progress - 0.25) / 0.2))
+                sub = font_medium.render(
+                    "Persona 4 Golden \u2014 Data Explorer", True,
+                    (150, 140, 180))
+                sub.set_alpha(sub_alpha)
+                self.screen.blit(sub,
+                                  sub.get_rect(center=(SCREEN_W // 2,
+                                                       SCREEN_H // 2 + 20)))
+
+            if progress > 0.25:
+                line_alpha = int(120 * min(1.0, (progress - 0.25) / 0.25))
+                # Measure subtitle text width to place lines beside it
+                sub_text = "Persona 4 Golden \u2014 Data Explorer"
+                sub_w = font_medium.size(sub_text)[0]
+                line_y = SCREEN_H // 2 + 20  # same y as subtitle
+                gap = 16  # gap between text edge and line start
+                arm_len = int(180 * min(1.0, (progress - 0.25) / 0.4))
+
+                # Left line: extends left from subtitle
+                left_end = SCREEN_W // 2 - sub_w // 2 - gap
+                for i in range(arm_len):
+                    x = left_end - i
+                    if x < 0:
+                        break
+                    fade = 1.0 - i / max(1, arm_len)
+                    a = int(line_alpha * fade * fade)
+                    pygame.draw.line(self.screen, (255, 215, 0, max(1, a)),
+                                     (x, line_y), (x, line_y), 1)
+
+                # Right line: extends right from subtitle
+                right_start = SCREEN_W // 2 + sub_w // 2 + gap
+                for i in range(arm_len):
+                    x = right_start + i
+                    if x >= SCREEN_W:
+                        break
+                    fade = 1.0 - i / max(1, arm_len)
+                    a = int(line_alpha * fade * fade)
+                    pygame.draw.line(self.screen, (255, 215, 0, max(1, a)),
+                                     (x, line_y), (x, line_y), 1)
+
+            self._intro_draw_particles(self.screen, elapsed,
+                                        C_GOLD, count=25)
+            self._intro_draw_tv_static(self.screen, 0.06,
+                                        seed=int(elapsed * 8))
+            self._intro_draw_scanlines(self.screen, 12)
+
+            vig = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+            for i in range(80):
+                a = int(70 * (1 - i / 80))
+                pygame.draw.line(vig, (0, 0, 0, a),
+                                  (0, i), (SCREEN_W, i))
+                pygame.draw.line(vig, (0, 0, 0, a),
+                                  (0, SCREEN_H - 1 - i),
+                                  (SCREEN_W, SCREEN_H - 1 - i))
+            self.screen.blit(vig, (0, 0))
+
+            if progress > 0.75:
+                fade_t = (progress - 0.75) / 0.25
+                fade = pygame.Surface((SCREEN_W, SCREEN_H),
+                                       pygame.SRCALPHA)
+                fade.fill((0, 0, 0, int(255 * fade_t)))
+                self.screen.blit(fade, (0, 0))
+
+            pygame.display.flip()
+
+        # ── Intro complete — stop intro music ──
+        _stop_intro_music()
+
     def run(self) -> None:
+
         while self.running:
             dt = self.clock.tick(FPS) / 1000.0
             self.handle_events()
