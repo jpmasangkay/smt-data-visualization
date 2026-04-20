@@ -213,6 +213,15 @@ class Game:
             alpha = int(22 * (1 - i / 90))
             pygame.draw.line(self.fog_surf, (20, 12, 48, alpha), (0, i), (SCREEN_W, i))
 
+        # Pre-allocated reusable surfaces (avoids per-frame allocation)
+        self._rain_surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        self._twinkle_surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        self._cycle_overlay = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        self._particle_surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+
+        # Scaled building sprite cache: bid → (zoom, surface)
+        self._scaled_sprite_cache: dict[str, tuple[float, pygame.Surface]] = {}
+
         self._show_loading_screen("Initializing data systems...", 0.95, min_time=0.5)
 
         # Final loading screen before entering
@@ -978,6 +987,20 @@ class Game:
 
     # ── Per-frame interactive building rendering (#1) ─────────────────────────
 
+    def _get_scaled_building_sprite(
+        self, bid: str, new_w: int, new_h: int,
+    ) -> pygame.Surface:
+        """Return a cached scaled building sprite, re-scaling only when size changes."""
+        cached = self._scaled_sprite_cache.get(bid)
+        if cached is not None:
+            cw, ch, surf = cached
+            if cw == new_w and ch == new_h:
+                return surf
+        sprite = self.building_sprites[bid]
+        scaled = pygame.transform.smoothscale(sprite, (new_w, new_h))
+        self._scaled_sprite_cache[bid] = (new_w, new_h, scaled)
+        return scaled
+
     def _draw_interactive_buildings(self) -> None:
         """Draw interactive buildings per-frame with animated neon glow.
 
@@ -986,9 +1009,8 @@ class Game:
         """
         cam_x, cam_y = int(self.camera.x), int(self.camera.y)
         neon_pulse = 0.5 + 0.5 * math.sin(self.t * 2.0)
-        fast_pulse = 0.5 + 0.5 * math.sin(self.t * 4.0)
 
-        # Depth-sort buildings
+        # Depth-sort buildings (deterministic, could be pre-sorted but cheap)
         sorted_buildings = sorted(BUILDINGS, key=lambda b: b["col"] + b["row"])
 
         for b in sorted_buildings:
@@ -1003,8 +1025,8 @@ class Game:
             br = iso_to_screen(b["col"] + size, b["row"] + size, cam_x, cam_y, self.zoom)
             foot_cx = (tl[0] + br[0]) / 2
             foot_cy = max(tl[1], tr[1], bl[1], br[1])
-            center_x = sum(p[0] for p in [tl, tr, bl, br]) / 4
-            center_y = sum(p[1] for p in [tl, tr, bl, br]) / 4
+            center_x = (tl[0] + tr[0] + bl[0] + br[0]) / 4
+            center_y = (tl[1] + tr[1] + bl[1] + br[1]) / 4
 
             # Skip off-screen buildings
             if center_x < -300 or center_x > SCREEN_W + 300:
@@ -1019,7 +1041,7 @@ class Game:
                 scale_f = foot_w / sprite.get_width() * 1.6
                 new_w = max(1, int(sprite.get_width() * scale_f))
                 new_h = max(1, int(sprite.get_height() * scale_f))
-                scaled = pygame.transform.smoothscale(sprite, (new_w, new_h))
+                scaled = self._get_scaled_building_sprite(bid, new_w, new_h)
                 blit_x = int(foot_cx - new_w / 2)
                 blit_y = int(foot_cy - new_h)
                 self.screen.blit(scaled, (blit_x, blit_y))
@@ -1030,31 +1052,38 @@ class Game:
                     b["color"], b["accent"], b["height"], b["size"],
                     cam_x, cam_y, neon_pulse, self.zoom)
 
-            # ── 2) Neon glow outline at building base (drawn AFTER sprite) ──
-            # Thin pulsing isometric diamond outline at ground level
+            # ── 2) Neon glow outline — localized surface instead of full-screen ──
             iso_pts = [
                 (int(tl[0]), int(tl[1])),
                 (int(tr[0]), int(tr[1])),
                 (int(br[0]), int(br[1])),
                 (int(bl[0]), int(bl[1])),
             ]
-            # Outer glow (thicker, more transparent)
+            # Compute bounding box of the diamond
+            glow_min_x = min(p[0] for p in iso_pts) - 6
+            glow_max_x = max(p[0] for p in iso_pts) + 6
+            glow_min_y = min(p[1] for p in iso_pts) - 6
+            glow_max_y = max(p[1] for p in iso_pts) + 6
+            glow_w = max(1, glow_max_x - glow_min_x)
+            glow_h = max(1, glow_max_y - glow_min_y)
             glow_a = int(40 + neon_pulse * 60)
-            glow_surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
-            pygame.draw.polygon(glow_surf, (*accent[:3], glow_a // 3), iso_pts, 4)
-            pygame.draw.polygon(glow_surf, (*accent[:3], glow_a), iso_pts, 2)
-            self.screen.blit(glow_surf, (0, 0))
+            local_pts = [(p[0] - glow_min_x, p[1] - glow_min_y) for p in iso_pts]
+            glow_surf = pygame.Surface((glow_w, glow_h), pygame.SRCALPHA)
+            pygame.draw.polygon(glow_surf, (*accent[:3], glow_a // 3), local_pts, 4)
+            pygame.draw.polygon(glow_surf, (*accent[:3], glow_a), local_pts, 2)
+            self.screen.blit(glow_surf, (glow_min_x, glow_min_y))
 
             # Small glow dot at the center base
             dot_r = int(6 * self.zoom)
             if dot_r > 1:
-                dot_surf = pygame.Surface((dot_r * 6, dot_r * 4), pygame.SRCALPHA)
+                dot_w, dot_h = dot_r * 6, dot_r * 4
+                dot_surf = pygame.Surface((dot_w, dot_h), pygame.SRCALPHA)
                 dot_a = int(30 + neon_pulse * 50)
                 pygame.draw.ellipse(dot_surf, (*accent[:3], dot_a),
-                                    (0, 0, dot_r * 6, dot_r * 4))
+                                    (0, 0, dot_w, dot_h))
                 self.screen.blit(dot_surf,
-                                 (int(foot_cx) - dot_r * 3,
-                                  int(foot_cy) - dot_r * 2))
+                                 (int(foot_cx) - dot_w // 2,
+                                  int(foot_cy) - dot_h // 2))
 
     # ── Drawing Helpers ──────────────────────────────────────────────────────
 
@@ -1087,24 +1116,27 @@ class Game:
             self.screen.blit(ns, nr)
 
     def draw_rain(self) -> None:
-        rain_surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        self._rain_surf.fill((0, 0, 0, 0))
         for drop in self.rain:
             ex = drop.x + drop.length * 0.3
             ey = drop.y + drop.length
-            pygame.draw.line(rain_surf, (*C_RAIN[:3], drop.alpha),
+            pygame.draw.line(self._rain_surf, (*C_RAIN[:3], drop.alpha),
                              (int(drop.x), int(drop.y)),
                              (int(ex), int(ey)), 1)
-        self.screen.blit(rain_surf, (0, 0))
+        self.screen.blit(self._rain_surf, (0, 0))
 
     def draw_glow_particles(self) -> None:
+        self._particle_surf.fill((0, 0, 0, 0))
         for p in self.glow_particles:
             if p.alpha <= 0:
                 continue
             r = max(1, int(p.radius))
-            s = pygame.Surface((r * 6, r * 6), pygame.SRCALPHA)
-            pygame.draw.circle(s, (*p.color, p.alpha // 3), (r * 3, r * 3), r * 3)
-            pygame.draw.circle(s, (*p.color, min(255, p.alpha)), (r * 3, r * 3), r)
-            self.screen.blit(s, (int(p.x) - r * 3, int(p.y) - r * 3))
+            cx, cy = int(p.x), int(p.y)
+            pygame.draw.circle(self._particle_surf,
+                               (*p.color, p.alpha // 3), (cx, cy), r * 3)
+            pygame.draw.circle(self._particle_surf,
+                               (*p.color, min(255, p.alpha)), (cx, cy), r)
+        self.screen.blit(self._particle_surf, (0, 0))
 
     def draw_fog(self) -> None:
         self.screen.blit(self.fog_surf, (0, 0))
@@ -1470,7 +1502,7 @@ class Game:
         """Animate ~20 bright stars with pulsing alpha glow."""
         if not self._bright_stars:
             return
-        twinkle_surf = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
+        self._twinkle_surf.fill((0, 0, 0, 0))
         for sx, sy, size, tint in self._bright_stars:
             # Each star has its own phase offset based on position
             phase = self.t * 2.5 + sx * 0.013 + sy * 0.017
@@ -1478,13 +1510,13 @@ class Game:
             glow_r = int((6 + size * 3) * pulse)
             glow_a = int(35 * pulse)
             if glow_r > 0:
-                pygame.draw.circle(twinkle_surf, (*tint, glow_a),
+                pygame.draw.circle(self._twinkle_surf, (*tint, glow_a),
                                    (sx, sy), glow_r)
                 # Inner bright core
                 core_a = int(80 * pulse)
-                pygame.draw.circle(twinkle_surf, (*tint, core_a),
+                pygame.draw.circle(self._twinkle_surf, (*tint, core_a),
                                    (sx, sy), max(1, glow_r // 3))
-        self.screen.blit(twinkle_surf, (0, 0))
+        self.screen.blit(self._twinkle_surf, (0, 0))
 
     # ── (#12) Day/Night Ambient Cycle ────────────────────────────────────────
 
@@ -1501,19 +1533,20 @@ class Game:
         tint_b = int(15 * twilight + 45 * deep_night)
         alpha = int(25 + 20 * deep_night)  # Darker at deep night
 
-        overlay = pygame.Surface((SCREEN_W, SCREEN_H), pygame.SRCALPHA)
-        overlay.fill((tint_r, tint_g, tint_b, alpha))
-        self.screen.blit(overlay, (0, 0))
+        self._cycle_overlay.fill((tint_r, tint_g, tint_b, alpha))
+        self.screen.blit(self._cycle_overlay, (0, 0))
 
         # Additional: subtle ambient light shift on the horizon during twilight
         if twilight > 0.6:
-            horizon_glow = pygame.Surface((SCREEN_W, 120), pygame.SRCALPHA)
             glow_a = int(12 * (twilight - 0.6) / 0.4)
-            for hy in range(120):
+            # Draw directly onto screen with a small reusable surface
+            horizon_y = int(SCREEN_H * 0.45)
+            for hy in range(0, 120, 2):  # Draw every 2nd line for speed
                 hy_fade = 1.0 - hy / 120.0
-                pygame.draw.line(horizon_glow, (80, 40, 20, int(glow_a * hy_fade)),
-                                 (0, hy), (SCREEN_W, hy))
-            self.screen.blit(horizon_glow, (0, int(SCREEN_H * 0.45)))
+                a = int(glow_a * hy_fade)
+                if a > 0:
+                    pygame.draw.line(self.screen, (80, 40, 20, a),
+                                     (0, horizon_y + hy), (SCREEN_W, horizon_y + hy))
 
     # ── Main Draw ────────────────────────────────────────────────────────────
 
